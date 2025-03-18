@@ -11,7 +11,7 @@
     1.  [Serve the frontend](#serve-frontend)
     2.  [Example `env.js`](#example-env-js)
 4.  [Setting up Docker](#setup-docker)
-    1.  [Setup a `.env` file](#setup-root-env-file)
+    1.  [Setup a `.env` file in the root of the project](#setup-root-env-file)
     2.  [Run docker commands](#run-docker)
 
 
@@ -152,16 +152,16 @@ web-browser.
 
 # Setting up Docker
 
-You don&rsquo;t need to setup neither the `env.js` file for the frontend nor the
-`application.properties` file for the backend as docker will outomate that for you
-using your `.env` file at the root of the project.
-
 Install [Docker](https://www.docker.com/).
+
+You don&rsquo;t need to setup neither the `env.js` file for the frontend nor the
+`application.properties` file for the backend as docker will automate that for you
+using your `.env` file at the root of the project.
 
 
 <a id="setup-root-env-file"></a>
 
-## Setup a `.env` file
+## Setup a `.env` file in the root of the project
 
     #!/usr/bin/env bash
     
@@ -176,10 +176,10 @@ Install [Docker](https://www.docker.com/).
 
 ## Run docker commands
 
-From the root of the project:
+Go to the root of the project and run the following commands:
 
     $ docker-compose build
-    $ docker-compose run
+    $ docker-compose up
 
 You will be able to access resoueces using <http://localhost:8000/> or
 <http://localhost:8000/index.html>
