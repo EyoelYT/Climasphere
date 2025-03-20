@@ -17,8 +17,12 @@ WORKDIR /app
 # copy the built JAR from the build stage
 COPY --from=build /app/target/*.jar app.jar
 
+# copy the entrypoint script to the appr location
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
 # expose the backend port
 EXPOSE 8080
 
 # Run the backend app
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["/app/entrypoint.sh"]
