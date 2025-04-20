@@ -1,17 +1,16 @@
 import { env } from './env.js';
 import { invertColorOfElementAgainstBg } from './changebackground.js'
-import { fetchWeather, changeVideoSource } from './gatherWeatherData.js'
+import { fetchAndDisplayWeather, changeVideoSource } from './gatherWeatherData.js'
 
 const springHost = env.host;
 const springPort = env.port;
-const pexelsAPIKey = env.pexelsAPIKey;
 
 document.getElementById('weatherForm').addEventListener('submit', async (event) => {
   event.preventDefault();
   const city = document.getElementById('city').value;
-  const queryToPexels = await fetchWeather(city, springHost, springPort);
+  const queryToPexels = await fetchAndDisplayWeather(city, springHost, springPort);
   try {
-    await changeVideoSource(queryToPexels.weather[0].description, pexelsAPIKey);
+    await changeVideoSource(queryToPexels.weather[0].description, springHost, springPort);
   } catch (error) {
     const weatherContainer = document.getElementById('weatherContainer');
     weatherContainer.style.display = 'block';

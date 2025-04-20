@@ -22,10 +22,9 @@ public class WeatherController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getWeather(
-            @RequestParam String city,
-            @RequestParam(required = false) String state,
-            @RequestParam(required = false) String country) {
+    public ResponseEntity<?> getWeather(@RequestParam String city,
+                                        @RequestParam(required = false) String state,
+                                        @RequestParam(required = false) String country) {
         try {
             WeatherResponse weatherResponse = weatherService.getWeather(city, state, country);
             return ResponseEntity.status(200).body(weatherResponse);

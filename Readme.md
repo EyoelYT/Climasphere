@@ -1,18 +1,22 @@
 
 # Table of Contents
 
-1.  [Using the Website](#website-usage)
-2.  [BACKEND](#backend)
-    1.  [API structure for querying current weather:](#query-current-weather)
-    2.  [Examples of working requests to the backend:](#working-requests-backend)
-    3.  [Examples of responses from the backend:](#responses-from-backend)
-    4.  [Command to build and run backend:](#build-and-run-backend)
-3.  [FRONTEND](#frontend)
-    1.  [Serve the frontend](#serve-frontend)
-    2.  [Example `env.js`](#example-env-js)
-4.  [Setting up Docker](#setup-docker)
-    1.  [Setup a `.env` file in the root of the project](#setup-root-env-file)
-    2.  [Run docker commands](#run-docker)
+-   [Using the Website](#website-usage)
+-   [BACKEND](#backend)
+    -   [Setup `applications.properties`](#setup-application-dot-properties)
+    -   [Command to build and run backend:](#build-and-run-backend)
+    -   [API structure for querying current weather:](#query-current-weather)
+        -   [Examples of working &rsquo;current-weather&rsquo; requests to the backend:](#working-weather-requests-backend)
+        -   [Examples of &rsquo;current-weather&rsquo; responses from the backend:](#weather-responses-from-backend)
+    -   [API structure for querying a pexels video:](#query-pexels-video)
+        -   [Examples of working query a &rsquo;pexels-video&rsquo; requests to the backend:](#pexels-video-requests-backend)
+        -   [Examples of &rsquo;pexels-video&rsquo; responses from the backend:](#pexels-video-responses-from-backend)
+-   [FRONTEND](#frontend)
+    -   [Serve the frontend](#serve-frontend)
+    -   [Example `env.js`](#example-env-js)
+-   [Setting up the Project with Docker](#setup-docker)
+    -   [Setup a `.env` file in the root of the project](#setup-root-env-file)
+    -   [Run docker commands](#run-docker)
 
 
 
@@ -29,6 +33,39 @@ temperature, humidity, and weather condition).
 # BACKEND
 
 
+<a id="setup-application-dot-properties"></a>
+
+## Setup `applications.properties`
+
+Setup `applications.properties` in `Climasphere/backend/src/main/resources/application.properties`
+
+The contents should look something like this:
+
+    spring.application.name=climasphere
+    
+    server.port=BACKEND-PORT-HERE
+    
+    weather.api.key=OPEN-WEATHER-MAP-API-KEY-HERE
+    weather.api.url=https://api.openweathermap.org/data/2.5/weather
+    
+    pexels.api.key=PEXELS-API-KEY-HERE
+    pexels.videoquery.api.url=https://api.pexels.com/videos/search
+
+
+<a id="build-and-run-backend"></a>
+
+## Command to build and run backend:
+
+-   sh
+    
+        cd backend
+        ./mvnw clean && ./mvnw spring-boot:run
+-   cmd
+    
+        cd backend
+        .\mvnw.cmd clean && .\mvnw.cmd spring-boot:run
+
+
 <a id="query-current-weather"></a>
 
 ## API structure for querying current weather:
@@ -36,9 +73,9 @@ temperature, humidity, and weather condition).
     http://{HOST}:{PORT}/api/weather?city={required_param},state={optional_param},country={optional_param}
 
 
-<a id="working-requests-backend"></a>
+<a id="working-weather-requests-backend"></a>
 
-## Examples of working requests to the backend:
+### Examples of working &rsquo;current-weather&rsquo; requests to the backend:
 
 -   <http://{HOST}:{PORT}/api/weather?city=London>
 -   <http://{HOST}:{PORT}/api/weather?city=Addis%20Ababa>
@@ -52,9 +89,11 @@ temperature, humidity, and weather condition).
 -   <http://{HOST}:{PORT}/api/weather?city=Addis+Ababa>
 
 
-<a id="responses-from-backend"></a>
+<a id="weather-responses-from-backend"></a>
 
-## Examples of responses from the backend:
+### Examples of &rsquo;current-weather&rsquo; responses from the backend:
+
+-   If city is found, it returns something like these in the response body:
 
     {
       "name": "Addis Ababa",
@@ -68,8 +107,7 @@ temperature, humidity, and weather condition).
         }
       ]
     }
-    
-    
+
     {
       "name": "São Paulo",
       "main": {
@@ -82,8 +120,7 @@ temperature, humidity, and weather condition).
         }
       ]
     }
-    
-    
+
     {
       "name": "Austin",
       "main": {
@@ -102,18 +139,34 @@ temperature, humidity, and weather condition).
         Location not found
 
 
-<a id="build-and-run-backend"></a>
+<a id="query-pexels-video"></a>
 
-## Command to build and run backend:
+## API structure for querying a pexels video:
 
--   sh
+    http://{HOST}:{PORT}/api/pexels?query=clouds
+
+
+<a id="pexels-video-requests-backend"></a>
+
+### Examples of working query a &rsquo;pexels-video&rsquo; requests to the backend:
+
+-   <http://{HOST}:{PORT}/api/pexels?query=Food>
+-   <http://{HOST}:{PORT}/api/pexels?query=Cloudy%20Day>
+-   <http://{HOST}:{PORT}/api/pexels?query=sunny%20day>
+-   <http://{HOST}:{PORT}/api/pexels?query=Addis+Ababa>
+
+
+<a id="pexels-video-responses-from-backend"></a>
+
+### Examples of &rsquo;pexels-video&rsquo; responses from the backend:
+
+-   If a video is found, it returns something like this in the response body:
+
+    https://videos.pexels.com/video-files/3967272/3967272-uhd_2732_1440_24fps.mp4
+
+-   If a video is not found, it returns this in the response body:
     
-        cd backend
-        ./mvnw clean && ./mvnw spring-boot:run
--   cmd
-    
-        cd backend
-        .\mvnw.cmd clean && .\mvnw.cmd spring-boot:run
+        Video not found
 
 
 <a id="frontend"></a>
@@ -142,7 +195,6 @@ web-browser.
     const env = {
       port: '8080',
       host: 'localhost',
-      pexelsAPIKey: 'api-key-here'
     };
     
     export { env };
@@ -150,13 +202,13 @@ web-browser.
 
 <a id="setup-docker"></a>
 
-# Setting up Docker
+# Setting up the Project with Docker
 
 Install [Docker](https://www.docker.com/).
 
 You don&rsquo;t need to setup neither the `env.js` file for the frontend nor the
 `application.properties` file for the backend as docker will automate that for you
-using your `.env` file at the root of the project.
+using your `.env` file that should be at the root of the project.
 
 
 <a id="setup-root-env-file"></a>
@@ -165,8 +217,9 @@ using your `.env` file at the root of the project.
 
     #!/usr/bin/env bash
     
-    export PEXELS_API_KEY={PEXELS-API-KEY-HERE}
-    export WEATHER_API_KEY={OPEN-WEATHER-MAP-API-KEY-HERE}
+    export PEXELS_API_KEY=PEXELS-API-KEY-HERE
+    export PEXELS_API_URL=https://api.pexels.com/videos/search
+    export WEATHER_API_KEY=OPEN-WEATHER-MAP-API-KEY-HERE
     export WEATHER_API_URL=https://api.openweathermap.org/data/2.5/weather
     export BACKEND_PORT=8080
     export BACKEND_HOST=localhost
@@ -181,6 +234,6 @@ Go to the root of the project and run the following commands:
     $ docker-compose build
     $ docker-compose up
 
-You will be able to access resoueces using <http://localhost:8000/> or
+You will be able to access resources using <http://localhost:8000/> or
 <http://localhost:8000/index.html>
 

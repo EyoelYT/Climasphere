@@ -10,10 +10,10 @@ import org.springframework.web.client.RestTemplate;
 public class WeatherService {
 
     @Value("${weather.api.key}")
-    private String apiKey;
+    private String weatherApiKey;
 
     @Value("${weather.api.url}")
-    private String apiUrl;
+    private String weatherApiUrl;
 
     private final RestTemplate restTemplate;
 
@@ -32,7 +32,7 @@ public class WeatherService {
             query = ',' + country;
         }
 
-        String url = String.format(formatter, apiUrl, query, apiKey);
+        String url = String.format(formatter, weatherApiUrl, query, weatherApiKey);
 
         // Call a GET request. Fetch the response into WeatherResponse class
         return restTemplate.getForObject(url, WeatherResponse.class);
